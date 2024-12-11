@@ -1,0 +1,63 @@
+# 0347. Top K Frequent Elements
+
+# description
+```
+Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+```
+# Code
+Python:
+```python
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        count = {}  # 使用字典來存儲每個數字的出現頻率
+        freq = [[] for i in range(len(nums) + 1)]  # 建立頻率桶，freq[i] 存放出現頻率為 i 的數字
+        
+        # 計算每個數字的出現頻率
+        for n in nums:
+            count[n] = 1 + count.get(n, 0)  # 如果 n 存在於 count 中，頻率加 1，否則初始化為 1
+
+        # 根據頻率將數字放入對應的桶中
+        for n, c in count.items():  # 遍歷每個數字和它的頻率
+            freq[c].append(n)  # 將數字 n 放入頻率為 c 的桶中
+
+        res = []  # 用來存放結果的列表
+        # 從高頻到低頻的順序遍歷桶
+        for i in range(len(freq) - 1, 0, -1):  # 倒序遍歷，從最高頻率開始
+            res += freq[i]  # 將頻率為 i 的數字加入結果列表
+            if len(res) == k:  # 如果已經找到前 k 個數字，直接返回結果
+                return res
+```
+
+C++:
+```C++
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> count; // 用來存放每個數字及其出現頻率
+        vector<vector<int>> freq(nums.size() + 1); // 桶排序，freq[i] 表示出現次數為 i 的數字列表
+
+        // 計算每個數字的出現頻率
+        for (int n : nums) {
+            count[n] = 1 + count[n]; // 如果數字已存在於 count 中，則頻率加 1
+        }
+
+        // 將數字根據頻率放入相應的桶
+        for (const auto& entry : count) { // 遍歷哈希表中的每個元素
+            freq[entry.second].push_back(entry.first); // 將數字放入對應的頻率桶中
+        }
+
+        vector<int> res; // 存放結果的數組
+        // 從高頻到低頻的順序遍歷桶
+        for (int i = freq.size() - 1; i > 0; --i) { // 從最高頻率開始遍歷
+            for (int n : freq[i]) { // 遍歷頻率為 i 的所有數字
+                res.push_back(n); // 將數字加入結果數組
+                if (res.size() == k) { // 如果已經找到前 k 個數字，直接返回結果
+                    return res;
+                }
+            }
+        }
+
+        return res; // 返回結果（當桶遍歷結束時）
+    }
+};
+```
