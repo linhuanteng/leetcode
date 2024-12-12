@@ -1,0 +1,37 @@
+# 0167. Two Sum II - Input Array Is Sorted
+
+# description
+```
+Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 <= numbers.length.
+
+Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2.
+
+The tests are generated such that there is exactly one solution. You may not use the same element twice.
+
+Your solution must use only constant extra space.
+```
+# Code
+Python:
+```python
+class Solution(object):
+    def twoSum(self, numbers, target):
+        l, r = 0, len(numbers) - 1  # 初始化雙指針，l 指向數組的起始，r 指向數組的末尾
+        
+        while l < r:  # 當左指針小於右指針時繼續搜索
+            curSum = numbers[l] + numbers[r]  # 計算當前指針指向數字的和
+            
+            if curSum > target:  # 如果當前和大於目標值
+                r -= 1  # 右指針向左移動以減小和
+            elif curSum < target:  # 如果當前和小於目標值
+                l += 1  # 左指針向右移動以增加和
+            else:  # 如果當前和等於目標值
+                return [l + 1, r + 1]  # 返回指針的 1-based 索引
+        
+        return []  # 如果未找到，返回空列表
+
+```
+
+C++:
+```C++
+
+```
