@@ -1,0 +1,70 @@
+# 0238. Product of Array Except Self
+
+# description
+```
+Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+You must write an algorithm that runs in O(n) time and without using the division operation.
+```
+# Code
+Python:
+```python
+class Solution(object):
+    def productExceptSelf(self, nums):
+        n = len(nums)
+        res = [1] * n  # 初始化結果數組，初始值設為 1
+
+        # 計算每個位置的前綴乘積
+        prefix = 1
+        for i in range(n):
+            res[i] = prefix  # 將前綴乘積存入結果數組
+            prefix *= nums[i]  # 更新前綴乘積
+
+        # 計算每個位置的後綴乘積，並與前綴乘積相乘
+        suffix = 1
+        for i in range(n - 1, -1, -1):  # 從數組末尾向前遍歷
+            res[i] *= suffix  # 將後綴乘積與結果數組中的值相乘
+            suffix *= nums[i]  # 更新後綴乘積
+
+        return res  # 返回結果數組
+```
+
+C++:
+```C++
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int prod = 1, zeroCount = 0; // 初始化總乘積和零的計數
+
+        // 計算總乘積，並記錄數組中零的個數
+        for (int num : nums) {
+            if (num != 0) {
+                prod *= num; // 如果數字不為零，累積乘積
+            } else {
+                zeroCount++; // 記錄零的個數
+            }
+        }
+
+        // 如果數組中有多於一個零，所有元素的結果都將是零
+        if (zeroCount > 1) {
+            return vector<int>(nums.size(), 0); // 返回一個全零數組
+        }
+
+        vector<int> res(nums.size()); // 初始化結果數組
+        for (size_t i = 0; i < nums.size(); i++) {
+            if (zeroCount > 0) {
+                // 如果數組中有一個零，只有零的位置可以等於總乘積
+                res[i] = (nums[i] == 0) ? prod : 0;
+            } else {
+                // 如果沒有零，每個位置的結果等於總乘積除以該位置的數字
+                res[i] = prod / nums[i];
+            }
+        }
+
+        return res; // 返回結果數組
+    }
+};
+
+```
