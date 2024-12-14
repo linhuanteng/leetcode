@@ -1,0 +1,58 @@
+# 0015. 3Sum
+
+# description
+```
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+Notice that the solution set must not contain duplicate triplets.
+```
+# Code
+Python:
+```python
+class Solution(object):
+    def threeSum(self, nums):
+        # 初始化結果列表，用來存儲所有符合條件的三元組
+        res = []
+        # 將輸入的數字列表排序，方便後續的雙指針操作
+        nums.sort()
+
+        # 遍歷數組，每次選擇一個固定數字 a 作為基準
+        for i, a in enumerate(nums):
+            # 如果當前數字 a 大於 0，則三數之和不可能等於 0，因為數組已排序
+            if a > 0:
+                break
+
+            # 跳過重複的數字，避免產生重複的三元組
+            if i > 0 and a == nums[i - 1]:
+                continue
+
+            # 初始化雙指針，左指針 l 指向 i 之後的第一個數，右指針 r 指向數組末尾
+            l, r = i + 1, len(nums) - 1
+            while l < r:
+                # 計算三數之和
+                threeSum = a + nums[l] + nums[r]
+                # 如果三數之和大於 0，右指針左移以減小和
+                if threeSum > 0:
+                    r -= 1
+                # 如果三數之和小於 0，左指針右移以增大和
+                elif threeSum < 0:
+                    l += 1
+                # 如果三數之和等於 0，找到一組解
+                else:
+                    res.append([a, nums[l], nums[r]])
+                    # 移動左右指針，繼續尋找其他可能組合
+                    l += 1
+                    r -= 1
+                    # 跳過左指針指向的重複數字，避免產生重複解
+                    while nums[l] == nums[l - 1] and l < r:
+                        l += 1
+                        
+        # 返回結果列表
+        return res
+
+```
+
+C++:
+```C++
+
+```
