@@ -1,0 +1,54 @@
+# 0042. Trapping Rain Water
+
+# description
+```
+Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
+```
+# Code
+Python:
+```python
+class Solution(object):
+    def trap(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        # 如果高度列表為空，則無法儲存雨水，返回 0
+        if not height:
+            return 0
+
+        # 初始化雙指針，分別指向高度列表的左右兩端
+        l, r = 0, len(height) - 1
+
+        # 初始化左右兩側的最大高度
+        leftMax, rightMax = height[l], height[r]
+
+        # 儲存總共可以容納的雨水量
+        res = 0
+
+        # 當左右指針未相遇時，進行遍歷
+        while l < r:
+            # 如果左側的最大高度小於右側的最大高度
+            if leftMax < rightMax:
+                # 移動左指針向右
+                l += 1
+                # 更新左側的最大高度
+                leftMax = max(leftMax, height[l])
+                # 計算當前位置能儲存的雨水量（左側最大高度 - 當前高度）
+                res += leftMax - height[l]
+            else:
+                # 移動右指針向左
+                r -= 1
+                # 更新右側的最大高度
+                rightMax = max(rightMax, height[r])
+                # 計算當前位置能儲存的雨水量（右側最大高度 - 當前高度）
+                res += rightMax - height[r]
+        
+        # 返回總共可以容納的雨水量
+        return res
+```
+
+C++:
+```C++
+
+```
