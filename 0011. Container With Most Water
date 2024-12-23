@@ -1,0 +1,52 @@
+# 0011. Container With Most Water
+
+# description
+```
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Notice that you may not slant the container.
+```
+# Code
+Python:
+```python
+class Solution(object):
+    def maxArea(self, height):
+        """
+        :type height: List[int]   # 輸入是一個整數列表，代表各個位置的高度。
+        :rtype: int               # 輸出是整數，代表可以容納的最大水量。
+        """
+        # 初始化兩個指針 l (左邊) 和 r (右邊)，分別指向高度列表的兩端
+        l, r = 0, len(height) - 1
+        
+        # 初始化最大水量為 0
+        res = 0  
+
+        # 當左指針還小於右指針時，持續執行迴圈
+        while l < r:
+            # 計算目前兩個指針之間的水量
+            # 面積 = 短邊高度 * 寬度（右指針 - 左指針）
+            area = min(height[l], height[r]) * (r - l)
+            
+            # 更新最大水量（取目前計算的面積和之前的最大值之間的較大者）
+            res = max(res, area)
+            
+            # 根據高度來移動指針
+            # 將高度較小的一端向內移動，因為移動較小高度的指針有可能增加水量
+            if height[l] <= height[r]:
+                l += 1  # 如果左邊高度較小或相等，向右移動左指針
+            else:
+                r -= 1  # 如果右邊高度較小，向左移動右指針
+        
+        # 返回計算得到的最大水量
+        return res
+
+```
+
+C++:
+```C++
+
+```
