@@ -11,28 +11,30 @@ Python:
 ```python
 class Solution(object):
     def lengthOfLongestSubstring(self, s):
-        # 使用一個集合來保存當前子串中不重複的字符
-        charSet = set()
+        # 字典 mp 用於存儲每個字符最新出現的位置
+        mp = {}
         
-        # 初始化左指針 l，結果變數 res
+        # 左指針 l 初始化為 0，表示滑動窗口的起始位置
         l = 0
+        
+        # 結果變數 res，用於記錄最長無重複子串的長度
         res = 0
 
-        # 使用右指針 r 遍歷整個字符串
+        # 使用右指針 r 遍歷字符串
         for r in range(len(s)):
-            # 當 s[r] 已經存在於集合中，意味著有重複字符
-            while s[r] in charSet:
-                # 移除左指針位置的字符，並將左指針向右移動
-                charSet.remove(s[l])
-                l += 1
+            # 如果當前字符 s[r] 已經出現在字典中
+            if s[r] in mp:
+                # 更新左指針 l 的位置，確保它跳過重複字符
+                # 注意：要取 max(mp[s[r]] + 1, l)，因為 l 可能已經在更靠右的位置
+                l = max(mp[s[r]] + 1, l)
             
-            # 將右指針的字符加入集合
-            charSet.add(s[r])
+            # 更新字典，將當前字符 s[r] 的位置記錄為 r
+            mp[s[r]] = r
             
-            # 計算當前無重複子串的長度，並更新結果變數 res
+            # 計算當前無重複子串的長度，並更新最大長度 res
             res = max(res, r - l + 1)
         
-        # 返回結果變數，表示無重複字符的最長子串長度
+        # 返回結果變數 res
         return res
 ```
 
